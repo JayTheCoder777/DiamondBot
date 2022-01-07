@@ -1,0 +1,168 @@
+from replit import db
+import discord
+#import minestat
+#ms = minestat.MineStat('216.49.241.192', 25565)
+import os
+from dotenv import load_dotenv
+from discord.ext import commands
+import keep_alive
+import time
+import pyjokes
+import random
+import mcstatus
+import test
+import asyncio
+from discord.utils import get
+
+bot = commands.Bot(command_prefix='!')
+
+@bot.command(pass_context=True)
+@commands.has_role("Admin") # This must be exactly the name of the appropriate role
+async def addrole(ctx):
+    member = ctx.message.author
+    role = get(member.server.roles, name="Test")
+    await bot.add_roles(member, role)
+
+special_feats = ["machine guns", "offroad tracks", "reactive suspension", "camo paint"]
+size = [" large ", " ", " small "]
+cannons = ["122", "130", "152", "100", "125", "150"]
+typez = ["ballistic", "armour piercing"]
+armour = ["heavily", "moderately", "lightly"]
+name_prefixes = ["PT-", "P-", "PT-X"]
+
+score=0
+
+greetings=["Hi!", "hey", "Wassup?", "Hey!", "Heyyyyyy", "What's up?", "hi", "Hellooooooooooooooooooooooooo", "Heyy", "Hey"]
+susses = ["Red sus", "Yellow sus", "Orange sus", "Brown sus", "S U S", "Dat sus"]
+
+load_dotenv()
+TOKEN = os.getenv("TOKEN")
+import os
+from discord.ext import commands
+import discord
+from dotenv import load_dotenv
+
+load_dotenv()
+
+client = commands.Bot(command_prefix ='$')
+import random
+
+async def add_rol(file, message):
+    with open(file, 'rb') as f:
+        lines = f.readlines()
+        for line in lines:
+            if line == "\n":
+                print("\nEmpty Line\n")
+            else:
+                await message.channel.send(line.strip())
+                return
+
+
+@client.event
+async def on_ready():
+    print(f'{client.user} has connected to Discord!')
+
+def calculate(text):
+  global score
+  '''if ("random" in text and "tank" in text):
+    number = random.randrange(100,999)
+    return("The " + random.choice(name_prefixes) + str(number) + " is a"+random.choice(size)+ random.choice(armour) + " armoured tank with a cannon which fires " + random.choice(cannons) + "mm " + random.choice(typez) + " rounds and has " + random.choice(special_feats) + ".")
+  if text=="ping":
+    if score > 4:
+      score=0
+      if random.randint(0,1) > 0.5:
+        return ("You missed! I win!")
+      else:
+        return ("Aww i missed. You win!")
+    else: 
+      score+=1
+      return ("pong")
+  if ("amogus" in text or "amongus" in text or "sus" in text):
+    return (random.choice(susses))
+  if ("bot" in text and "shit" in text and "do" in text):
+    return ("💩")
+  if ("joke" in text and "bot" in text):
+    return pyjokes.get_joke()
+  if ("tell us about" in text or "what can" in text) and "bot" in text:
+    return("Atm I can tell some jokes and answer simple questions i guess.")
+  if ("name is") in text:
+    return ("Nice to meet you! My name is AutoBot.")
+  if ("hello" in text or "hi" in text or "hey" in text or "hallo" in text or "u there" in text) and "bot" in text:
+    return(random.choice(greetings))
+  if "xd" in text or "lol" in text:
+    if random.randint(0,1) > 0.8:
+      return("lol")
+    else: 
+      if random.randint(0,1) > 0.3:
+        return("XD")
+  '''
+  if text =='!debugger':
+    return(test.r.text)
+  if ('server' in text.lower() and ('up' in text.lower()  or 'down' in text.lower() )) and not (text.split(" ")[0]=="!embed"):
+    test.respond()
+    #server = mcstatus.MinecraftServer("")
+    serverup = test.r.json()['online']
+    if serverup:
+      '''status = server.status()'''
+      '''a = ("The server is up and has {0} players and replied in {1} ms".format(status.players.online, status.latency))
+      query = server.query()
+      a = a+("\nThe server has the following players online: {0}".format(", ".join(query.players.names)))
+      #return("The server is up and has {0} players and replied in {1} ms".format(status.players.online, status.latency))'''
+      return(test.respond())
+    else:
+      return('The server cannot be contacted at this time. Please contact an admin.')
+  if(text.split(" ")[0]=="!embed"):
+    if len(text.split(" && "))<2:
+      print("invalud")
+    else:
+      embed=discord.Embed(title=text.split(" && ")[1], description=text.split(" && ")[0][6:])
+    embed.set_thumbnail(url='https://cdn.discordapp.com/avatars/928188600246485012/d1e518bbb3bec1697a020cb9b0e4de6f.webp?size=512')
+    return(embed)
+  if(text.split(" ")[0]=="!warn"):
+    ts = text.split(" ")
+    if False:
+      print("invalud")
+    else:
+      leng = 6+len(ts[1])
+      embed=discord.Embed(title=("User "+ts[1]+" has been warned!"), description=("Reason: "+text[leng:]))
+    embed.set_thumbnail(url='https://www.rhinocarhire.com/CorporateSite/media/Drive-Smart/Dash-Symbols/warning_symbol_in_red.png')
+    return(embed)
+  if(text.split(" ")[0]=="!strike"):
+    ts = text.split(" ")
+    if False:
+      print("invalud")
+    else:
+      leng = 8+len(ts[1])
+      embed=discord.Embed(title=("User "+ts[1]+" has been given a strike!"), description=("Reason: "+text[leng:]))
+    embed.set_thumbnail(url='https://www.rhinocarhire.com/CorporateSite/media/Drive-Smart/Dash-Symbols/warning_symbol_in_red.png')
+    a = ts[1]
+    a = a.replace("<","")
+    a = a.replace(">","")
+    a = a.replace("@","")
+    a = a.replace("!","")
+    print(a)
+    user = bot.fetch_user(a)
+    print(user)
+    role = discord.utils.get(user.server.roles, name="Strike 1")
+    return(embed)
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+      return
+
+    if message.content.startswith(''):
+      send=calculate(message.content)
+      if "discord.embeds" in str(send):
+        if "Moderat" in str(message.author.roles) or message.content == "!ip":
+         await message.channel.send(embed=send)
+      else:
+        await message.channel.send(send)
+        print('debug')
+#        await message.channel.send('2,300,340')
+#      if message.content.contains('Fuzza'):
+#        await message.channel.send("He's a good friend of mine.")
+
+
+keep_alive.keep_alive()
+client.run(TOKEN)
